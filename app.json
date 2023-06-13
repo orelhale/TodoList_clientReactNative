@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Todo list",
+    "slug": "oreltodolist",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./App/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./App/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.orelapp.oreltodolist",
+      "versionCode": 1
+    },
+    "web": {
+      "favicon": "./App/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d3f79dfb-4301-484f-bb1d-935153c6e6c0"
+      }
+    },
+    "owner": "oreljbh"
+  }
+}
