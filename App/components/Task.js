@@ -7,11 +7,24 @@ import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
 
 MIcon.loadFont();
 
-export default function Task({ taskData, style, indexTask, handleDoubleClick, handleCheckbox, handleDelete }) {
+export default function Task({
+   taskData,
+   style,
+   indexTask,
+   handleDoubleClick,
+   handleCheckbox,
+   // handleDelete,
+   handleLongPress
+}) {
    let { description, priority, is_done, id } = taskData
 
    return (
-      <Pressable style={({ pressed }) => [{ backgroundColor: pressed ? globalColor.gray : 'white' }, styles.taskContainer]}>
+      <Pressable
+         onPress={() => console.log("Small press")}
+         // onLongPress={()=>console.log("Long press")}
+         onLongPress={() => handleLongPress(taskData)}
+         style={({ pressed }) => [{ backgroundColor: pressed ? globalColor.gray : 'white' }, styles.taskContainer]}
+      >
 
          {handleCheckbox &&
             <View>
@@ -28,9 +41,9 @@ export default function Task({ taskData, style, indexTask, handleDoubleClick, ha
             <Text style={[globalSize.text2, styles.description, (is_done && styles.textAndStrikeThrough)]}>{description}</Text>
          </View>
 
-         {handleDelete && <View style={styles.icon}>
+         {/* {handleDelete && <View style={styles.icon}>
             <MIcon name="delete" color={globalColor.error} size={globalSize.element} onPress={() => { handleDelete(id) }} />
-         </View>}
+         </View>} */}
 
       </Pressable>
    );
@@ -44,6 +57,8 @@ let styles = StyleSheet.create({
       paddingBottom: 8,
       marginTop: 2,
       marginBottom: 2,
+      // flexWrap: "wrap",
+      // flexDirection: 'row',
    },
    textAndStrikeThrough: {
       textDecorationLine: 'line-through'
@@ -55,6 +70,8 @@ let styles = StyleSheet.create({
       marginRight: 10,
    },
    descriptionContaier: {
+      // flexWrap: "wrap",
+      // flexDirection: "row",
 
       flexGrow: 1,
       // flexWrap: "wrap"

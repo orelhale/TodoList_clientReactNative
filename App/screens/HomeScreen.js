@@ -4,10 +4,12 @@ import CreateTask from "../components/CreateTask";
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import storeFunction from "../functions/storeFunction";
+import { OpenMnue } from "../components/OpenMnue";
 
 export default function HomeScreen() {
 	let [allTask, setAllTask] = useState([])
 	let [editTask, setEditTask] = useState(null);
+	let [openMnueData, setOpenMnueData] = useState(null);
 
 
 	async function getTasksFromServer() {
@@ -18,20 +20,35 @@ export default function HomeScreen() {
 	useEffect(() => {
 		getTasksFromServer()
 	}, [])
+	useEffect(() => {
+		console.log('openMnueData = ', openMnueData);
+	}, [openMnueData])
 
 
 	return (
 		<>
-			<CreateTask editTask={editTask} setEditTask={setEditTask} setAllTask={setAllTask} />
-			<View style={styles.marginView} />
-			<TaskList allTask={allTask} setAllTask={setAllTask} setEditTask={setEditTask} />
+			{/*  יצירת משימה */}
+			<CreateTask
+				editTask={editTask}z
+				setEditTask={setEditTask}
+				setAllTask={setAllTask}
+			/>
+			{/*  תפריט נפתח (לאחר לחיצה ארוכה על משימה)  */}
+			{openMnueData && <OpenMnue openMnueData={openMnueData} setOpenMnueData={setOpenMnueData} setAllTask={setAllTask} />}
+			{/*  רשימת משימות */}
+			<TaskList
+				allTask={allTask}
+				setAllTask={setAllTask}
+				setEditTask={setEditTask}
+				setOpenMnueData={setOpenMnueData}
+				openMnueData={openMnueData}
+
+			/>
 		</>
 	);
 }
 
 
 let styles = StyleSheet.create({
-	marginView: {
-		marginTop: 10,
-	}
+
 });
