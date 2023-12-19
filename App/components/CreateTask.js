@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { StyleSheet, TextInput, View, } from "react-native";
 import Button from "./AppButton";
 import globalSize from "../globalStyle/globalSize";
-import storeFunction from "../functions/storeFunction";
 
 
-export default function CreateTask({ editTask, setEditTask, setAllTask }) {
+export default function CreateTask({ editTask, setEditTask, setAllTask,needToSaveChanges }) {
 
 	const [description, setDescription] = useState("");
 	const [borderStyle, setBorderStyle] = useState({});
 	const [priority, setPriority] = useState(1)
-
+	
 
 	useEffect(() => {
 		if (editTask) {
+			console.log("editTask============ ",editTask);
 			setDescription(editTask.description)
 			setPriority(editTask.priority)
 		}
@@ -32,29 +32,35 @@ export default function CreateTask({ editTask, setEditTask, setAllTask }) {
 	async function handleOnPress() {
 		try {
 
-			console.log("description = ", description);
 			if (description == "") {
 				setBorderStyle({ borderColor: "red" })
 				return;
 			}
 
-			let dataToServer = editTask || {}
+			let task = editTask || {}
 
-			dataToServer.description = description
-			dataToServer.priority = priority
-			dataToServer.is_done = false;
-			dataToServer.id = new Date().getTime();
+			task.description = description
+			task.priority = priority
+			task.is_done = false;
+			task.id = Math.round(new Date().getTime() / 1000);
 
-			let newTaskList = []
 			if (editTask) {
+				setAllTask((tasks)=>[...tasks])
 			} else {
-				newTaskList = await storeFunction.addTask(dataToServer)
+				// newTaskList = 
+				// await storeFunction.addTask(coptAllTask)
+				setAllTask((tasks)=>{
+					let copyTasks = [...tasks]
+					console.log("tasks.length 1 ==== ", copyTasks.length);
+					copyTasks.push(task)
+					console.log("tasks.length 2 ==== ", copyTasks.length);
+					return copyTasks
+				})
 			}
-			console.log("newTaskList= ", newTaskList);
-			setAllTask(newTaskList)
 			setEditTask(null)
 			setPriority(1)
 			setDescription("")
+			needToSaveChanges()
 
 		} catch (error) {
 			console.log("Error: handleOnPress = ", error);

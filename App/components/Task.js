@@ -31,7 +31,9 @@ export default function Task({
                <CheckBox
                   containerStyle={styles.checkBox}
                   checked={is_done}
-                  onPress={() => handleCheckbox(id, { is_done: !is_done })}
+                  onPress={() => {
+                     handleCheckbox(taskData)
+                  }}
                   size={globalSize.element}
                />
 

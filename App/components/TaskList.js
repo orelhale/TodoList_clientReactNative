@@ -13,6 +13,7 @@ export default function TaskList({
    setEditTask,
    setOpenMnueData,
    openMnueData,
+   needToSaveChanges,
 }) {
 
    let [list, setList] = useState([])
@@ -99,26 +100,18 @@ export default function TaskList({
    // }
 
    // To change the task to execution and vice versa
-   async function handleCheckbox(id, value) {
-      try {
-         let newTaskList = await storeFunction.editTask(id, value)
-         setAllTask(newTaskList)
-      } catch (error) {
-
-      }
+   async function handleCheckbox(task) {
+      task.is_done = !task.is_done
+      setAllTask((taskList)=>[...taskList])
+      needToSaveChanges()
    }
 
-   async function handleLongPress(tesk) {
-      setOpenMnueData(tesk)
-      console.log("tesk ===== ", tesk);
+   async function handleLongPress(task) {
+      setOpenMnueData(task)
+      console.log("task ===== ", task);
    }
 
-   function ClossMenuTask() {
-      if (openMnueData) {
-         console.log("ClossMenuTask ===== ",);
-         setOpenMnueData(null)
-      }
-   }
+
    return (
       <Pressable style={styles.TaskList}>
 

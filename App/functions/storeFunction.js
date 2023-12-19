@@ -7,6 +7,14 @@ async function getAllTask() {
    return jsonStore
 }
 
+async function saveData(data) {
+   let toString = JSON.stringify(data)
+
+   await AsyncStorage.setItem("tasks", toString)
+
+   return data
+}
+
 
 async function editTask(id, object) {
    try {
@@ -25,13 +33,14 @@ async function editTask(id, object) {
 }
 
 
-async function addTask(task) {
+async function addTask(tasks) {
    try {
-      let jsonStore = await getStoreOrCreate()
-      jsonStore.push(task)
-      await AsyncStorage.setItem("tasks", JSON.stringify(jsonStore))
+      // let jsonStore = await getStoreOrCreate()
+      // jsonStore.push(tasks)
+      let toString = JSON.stringify(tasks)
+      await AsyncStorage.setItem("tasks", toString)
 
-      return jsonStore
+      // return jsonStore
 
    } catch (error) {
       console.log("Error addTask = ", error);
@@ -93,4 +102,10 @@ async function getIndexTaskById(id) {
 }
 
 
-export default { addTask, editTask, deleteTask, getAllTask }
+export default {
+   addTask,
+   editTask,
+   deleteTask,
+   getAllTask,
+   saveData,
+}

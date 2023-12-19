@@ -6,7 +6,12 @@ import { Text } from "react-native";
 import globalColor from "../globalStyle/globalColor";
 
 
-export function OpenMnue({ openMnueData, setOpenMnueData, setAllTask }) {
+export function OpenMnue({ 
+    openMnueData, 
+    setOpenMnueData, 
+    setAllTask,
+    setEditTask,
+}) {
 
     function clossMnue() {
         console.log("clossMnue ======");
@@ -26,6 +31,11 @@ export function OpenMnue({ openMnueData, setOpenMnueData, setAllTask }) {
             console.log("Error handleDelete = ", error);
         }
     }
+    
+    function handleEdit() {
+        setEditTask(openMnueData)
+        clossMnue()
+    }
 
     return (
         <>
@@ -36,10 +46,19 @@ export function OpenMnue({ openMnueData, setOpenMnueData, setAllTask }) {
                             <AppButton
                                 style={{backgroundColor:"red"}}
                                 onPress={() => {
-                                handleDelete()
-                                console.log("Delete");
-                            }}
-                                title="Delete" />
+                                    handleDelete()
+                                    console.log("Delete");
+                                }}
+                                title="Delete" 
+                            />
+                            <AppButton
+                                style={{backgroundColor:"green"}}
+                                onPress={() => {
+                                    handleEdit()
+                                    console.log("Edit");
+                                }}
+                                title="Edit" 
+                            />
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
