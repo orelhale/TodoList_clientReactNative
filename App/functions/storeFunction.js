@@ -2,6 +2,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+function getData() {
+   return AsyncStorage.getItem("tasks")
+}
+
+function setData(data) {
+   return AsyncStorage.setItem("tasks", data)
+}
+
 async function getAllTask() {
    let jsonStore = await getStoreOrCreate()
    return jsonStore
@@ -10,7 +18,7 @@ async function getAllTask() {
 async function saveData(data) {
    let toString = JSON.stringify(data)
 
-   await AsyncStorage.setItem("tasks", toString)
+   await setData(toString)
 
    return data
 }
@@ -23,7 +31,7 @@ async function editTask(id, object) {
 
       jsonStore[index] = { ...jsonStore[index], ...object };
 
-      await AsyncStorage.setItem("tasks", JSON.stringify(jsonStore))
+      await setData(JSON.stringify(jsonStore))
 
       return jsonStore
    } catch (error) {
@@ -38,7 +46,7 @@ async function addTask(tasks) {
       // let jsonStore = await getStoreOrCreate()
       // jsonStore.push(tasks)
       let toString = JSON.stringify(tasks)
-      await AsyncStorage.setItem("tasks", toString)
+      await setData(toString)
 
       // return jsonStore
 
@@ -55,7 +63,7 @@ async function deleteTask(id) {
 
       jsonStore.splice(index, 1)
 
-      await AsyncStorage.setItem("tasks", JSON.stringify(jsonStore))
+      await setData(JSON.stringify(jsonStore))
 
       console.log(`Task \"${id}\" deleted successfully`);
 
@@ -69,10 +77,10 @@ async function deleteTask(id) {
 
 async function getStoreOrCreate() {
    try {
-      let check = await AsyncStorage.getItem("tasks")
+      let check = await getData()
 
       if (!check) {
-         AsyncStorage.setItem("tasks", JSON.stringify([]))
+         setData(JSON.stringify([]))
          return []
       }
       return JSON.parse(check)
@@ -88,7 +96,7 @@ async function getIndexTaskById(id) {
    if (!id)
       Promise.reject("Id is undefined")
 
-   let jsonStore = JSON.parse(await AsyncStorage.getItem("tasks"))
+   let jsonStore = JSON.parse(await getData())
 
    if (!jsonStore)
       Promise.reject("Store is empty")
