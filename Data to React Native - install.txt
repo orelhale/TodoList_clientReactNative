@@ -1,0 +1,34 @@
+בס"ד
+שלבים להתקנת react native 
+
+==========
+להתקין expo גלובלי
+
+npm i -g expo-cli
+
+==========
+
+הורדת תוספים ל vs code
+
+React Native Tools
+React-Native/React/Redux snippets...
+
+==========
+
+אם vs code לא מזהה את expo אז להריץ את זה ב powershell או cdm כמנהל
+
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
+
+
+
+==========
+
+יצירת פרוייקט expo
+
+expo init <name-project
+>
+
+(לסמן בתפריט את האפשרות blank)
+==========
+
+==========

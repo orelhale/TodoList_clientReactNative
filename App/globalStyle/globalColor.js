@@ -8,6 +8,7 @@ let globalColor = StyleSheet.create({
    gray: "rgb(241, 241, 241)",
    gray2: "#ddd",
    error: "red",
+   edit: "green",
 })
 
 export default globalColor

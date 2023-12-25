@@ -1,0 +1,16 @@
+
+PATH (C:\Users\OrelHale\AppData\Local\Android\Sdk\emulator)
+
+צריך להגדיר משתנה סביבה כדי ש emulator יהיה זמין 
+
+==============================
+
+emulator -list-avds
+
+מראה את כל ה- emulator שקיימים
+
+===================
+
+emulator -avd <name-emulator>
+
+להריץ emulator

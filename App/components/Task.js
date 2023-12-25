@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, TouchableHighlight, Pressable } from "react-native";
 import globalSize from "../globalStyle/globalSize";
 import { CheckBox } from "@rneui/themed";
-import { useEffect, useState } from "react";
 import globalColor from "../globalStyle/globalColor";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
 

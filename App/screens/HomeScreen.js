@@ -1,13 +1,18 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import CreateTask from "../components/CreateTask";
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import storeFunction from "../functions/storeFunction";
 import { OpenMnue } from "../components/OpenMnue";
+import CategoriesList from "../components/CategoriesList";
+import { Button } from "@rneui/base";
 
 export default function HomeScreen() {
-	let [allTask, setAllTask] = useState([])
+	let [allData, setAllData] = useState(null)
+	let [allTask, setAllTask] = useState(null)
+	let [categories, setCategories] = useState()
+	let [selectedCategory, setSelectedCategory] = useState()
 	let [editTask, setEditTask] = useState(null);
 	let [openMnueData, setOpenMnueData] = useState(null);
 
@@ -15,19 +20,13 @@ export default function HomeScreen() {
 	let [flagSaveDate222, setFlagSaveDate222] = useState(false)
 	let timeToSave = 3000;
 
-
-	async function getTasksFromServer() {
-		let data = await storeFunction.getAllTask()
-		data && setAllTask(data)
-	}
-
 	useEffect(() => {
 		getTasksFromServer()
 		// ========== זה לא עובד =========
 		return () => {
 			if (flagSaveDate) {
 				console.log("destroy component");
-				storeFunction.saveData(allTask)
+				storeFunction.saveAllData(allData)
 			}
 		}
 	}, [])
@@ -47,55 +46,136 @@ export default function HomeScreen() {
 	}, [flagSaveDate222])
 
 	useEffect(() => {
-		if(openMnueData){
+		if (openMnueData) {
 			console.log('openMnueData = ', openMnueData);
 		}
 	}, [openMnueData])
 
-	function needToSaveChanges() {
+	useEffect(() => {
+		if (allData) {
+			let keyList = Object.keys(allData)
+			setCategories(keyList)
+		}
+	}, [allData])
+
+	useEffect(() => {
+		if (categories) {
+			console.log("categories ==== ", categories);
+			for (let c of categories) {
+				console.log(c + " = " + allData[c].length);
+			}
+		}
+	}, [categories])
+
+	useEffect(() => {
+		if (selectedCategory) {
+			setAllTask([...allData[selectedCategory]])
+		} else {
+
+			console.log("allData==== ", allData);
+		}
+	}, [selectedCategory])
+
+	useEffect(() => {
+		if (allTask) {
+			console.log("allTask==== ", allTask);
+		}
+	}, [allTask])
+
+
+	function needToSaveChanges(data) {
+		if (data) {
+			return saveChanges(data)
+		}
 		if (!flagSaveDate) {
 			setFlagSaveDate(true)
 		}
 	}
 
-	function saveChanges() {
+	async function getTasksFromServer() {
+		let data = await storeFunction.getAllData()
+		// data && setAllTask(data)
+		data && setAllData(data)
+	}
+
+	function saveChanges(data) {
 		setFlagSaveDate(false)
 		setFlagSaveDate222(false)
-		storeFunction.saveData(allTask)
+		storeFunction.saveAllData(data || allData)
 		console.log("---- Data saving  ----");
 	}
 
 	return (
 		<>
+
 			{/*  יצירת משימה */}
 			<CreateTask
 				editTask={editTask}
 				setEditTask={setEditTask}
 				setAllTask={setAllTask}
 				needToSaveChanges={needToSaveChanges}
-				/>
+				selectedCategory={selectedCategory}
+				allData={allData}
+				setAllData={setAllData}
+			/>
+			{/* לחצן חזר */}
+			{(allTask && selectedCategory) &&
+				<TouchableOpacity style={styles.retrunButton} >
+					<Text style={styles.retrunButtonText} onPress={() => setSelectedCategory()}>{'<-'}</Text>
+				</TouchableOpacity>
+			}
 			{/*  תפריט נפתח (לאחר לחיצה ארוכה על משימה)  */}
 			{openMnueData && <OpenMnue
-				openMnueData={openMnueData} 
-				setOpenMnueData={setOpenMnueData} 
-				setAllTask={setAllTask} 
+				openMnueData={openMnueData}
+				setOpenMnueData={setOpenMnueData}
+				setAllTask={setAllTask}
 				setEditTask={setEditTask}
+				needToSaveChanges={needToSaveChanges}
+				allData={allData}
+				selectedCategory={selectedCategory}
+				setAllData={setAllData}
 			/>}
+
+			{/*  רשימת קטגוריות */}
+			{(categories && !selectedCategory) && <CategoriesList
+				categories={categories}
+				setSelectedCategory={setSelectedCategory}
+				setOpenMnueData={setOpenMnueData}
+			/>}
+
+
 			{/*  רשימת משימות */}
-			<TaskList
+			{(allTask && selectedCategory) && <TaskList
 				allTask={allTask}
 				setAllTask={setAllTask}
 				setEditTask={setEditTask}
 				setOpenMnueData={setOpenMnueData}
 				openMnueData={openMnueData}
 				needToSaveChanges={needToSaveChanges}
-
-			/>
+			/>}
 		</>
 	);
 }
 
 
 let styles = StyleSheet.create({
+	retrunButton: {
+		// borderRadius:1,
+		flexDirection: 'row',
+		borderRadius: 20,
+		borderWidth: 1,
+		// padding: 5,
+		width: 35,
+		height: 35,
+		textAlign: "center",
+		alignItems: "center",
+		justifyContent: "center",
+		marginTop: 10,
 
+
+	},
+
+	retrunButtonText: {
+		fontSize: 20
+	}
 });

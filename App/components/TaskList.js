@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, View, Pressable } from "react-native";
 import AppButton from "./AppButton";
 import Task from "./Task";
-import apiFunction from "../functions/apiFunction";
 import HairlineWidth from "./HairlineWidth";
-import storeFunction from "../functions/storeFunction";
-import { Button } from "@rneui/base";
 
 export default function TaskList({
    allTask = [],
@@ -142,7 +139,7 @@ export default function TaskList({
 
 let styles = StyleSheet.create({
    TaskList: {
-      marginTop: 10,
+      // marginTop: 10,
    },
    buttonContainer: {
       flexWrap: "wrap",

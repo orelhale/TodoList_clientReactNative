@@ -4,20 +4,33 @@ import Button from "./AppButton";
 import globalSize from "../globalStyle/globalSize";
 
 
-export default function CreateTask({ editTask, setEditTask, setAllTask,needToSaveChanges }) {
+export default function CreateTask({
+	editTask,
+	setEditTask,
+	setAllTask,
+	needToSaveChanges,
+	selectedCategory,
+	allData,
+	setAllData,
+}) {
 
 	const [description, setDescription] = useState("");
 	const [borderStyle, setBorderStyle] = useState({});
 	const [priority, setPriority] = useState(1)
-	
 
 	useEffect(() => {
 		if (editTask) {
-			console.log("editTask============ ",editTask);
-			setDescription(editTask.description)
+			setDescription(selectedCategory ? editTask.description : editTask)
 			setPriority(editTask.priority)
 		}
 	}, [editTask])
+
+
+	useEffect(() => {
+		setEditTask(null)
+		setPriority(1)
+		setDescription("")
+	}, [selectedCategory])
 
 
 	function handleOnChangeText(text) {
@@ -28,43 +41,64 @@ export default function CreateTask({ editTask, setEditTask, setAllTask,needToSav
 
 	}
 
-
-	async function handleOnPress() {
+	function categoryHandle() {
 		try {
-
-			if (description == "") {
-				setBorderStyle({ borderColor: "red" })
-				return;
+			let copyAllData = { ...allData }
+			if (editTask) { // עריכת קטגוריה
+				copyAllData[description] = [...copyAllData[editTask]]
+				delete copyAllData[editTask]
+				setAllData(copyAllData)
 			}
+			else { // יצירת קטגוריה
+				copyAllData[description] = []
+				setAllData(copyAllData)
+			}
+			needToSaveChanges(copyAllData)
+		} catch (error) {
+			console.log("Error: categoryHandle = ", error);
+		}
+	}
 
+	function taskHandle() {
+		try {
 			let task = editTask || {}
-
 			task.description = description
 			task.priority = priority
 			task.is_done = false;
 			task.id = Math.round(new Date().getTime() / 1000);
 
-			if (editTask) {
-				setAllTask((tasks)=>[...tasks])
-			} else {
-				// newTaskList = 
-				// await storeFunction.addTask(coptAllTask)
-				setAllTask((tasks)=>{
-					let copyTasks = [...tasks]
-					console.log("tasks.length 1 ==== ", copyTasks.length);
-					copyTasks.push(task)
-					console.log("tasks.length 2 ==== ", copyTasks.length);
-					return copyTasks
-				})
+			if (editTask) { // עריכת משימה
+				setAllTask((tasks) => [...tasks])
+			} else { // יצירת משימה
+				let copyAllData = { ...allData }
+				// console.log("copyAllData[selectedCategory].length 1 ==== ", copyAllData[selectedCategory].length);
+				copyAllData[selectedCategory].push(task)
+				// console.log("copyAllData[selectedCategory].length 2 ==== ", copyAllData[selectedCategory].length);
+				setAllData(copyAllData)
+				setAllTask([...copyAllData[selectedCategory]])
 			}
-			setEditTask(null)
-			setPriority(1)
-			setDescription("")
 			needToSaveChanges()
-
 		} catch (error) {
-			console.log("Error: handleOnPress = ", error);
+			console.log("Error: taskHandle = ", error);
 		}
+	}
+
+	async function ceateOrEdit() {
+
+
+		// אם הקלט ריק - אז יש התראה
+		if (description == "")
+			return setBorderStyle({ borderColor: "red" })
+
+		if (selectedCategory) {
+			taskHandle()
+		} else {
+			categoryHandle()
+		}
+
+		setEditTask(null)
+		setPriority(1)
+		setDescription("")
 	}
 
 
@@ -76,9 +110,9 @@ export default function CreateTask({ editTask, setEditTask, setAllTask,needToSav
 					multiline
 					onChangeText={handleOnChangeText}
 					value={description}
-					placeholder={"New task"}
+					placeholder={selectedCategory ? "New task" : "New category"}
 				/>
-				<Button title="+" type={3} onPress={handleOnPress} />
+				<Button title="+" type={3} onPress={ceateOrEdit} />
 			</View>
 		</>
 	);
