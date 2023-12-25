@@ -1,0 +1,4 @@
+1
+create project in expo site
+2
+and after that i get all the anther part
