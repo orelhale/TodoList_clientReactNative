@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Todo list",
-    "slug": "oreltodolist",
-    "version": "1.0.0",
+    "slug": "todo-list",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./App/assets/icon.png",
     "userInterfaceStyle": "light",
@@ -26,7 +26,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "d3f79dfb-4301-484f-bb1d-935153c6e6c0"
+        "projectId": "e53033d4-ace6-4def-8990-77316c2b225f"
       }
     },
     "owner": "oreljbh"

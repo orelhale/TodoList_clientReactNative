@@ -1,0 +1,8 @@
+1
+(run ->) npm i -g eas-cli
+
+2
+(run ->) eas build -p android --profile preview
+
+3
+after build in the terminal i get link to dounload the apk file 
