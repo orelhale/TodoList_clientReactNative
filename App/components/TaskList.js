@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, Pressable } from "react-native";
 import AppButton from "./AppButton";
 import Task from "./Task";
-import apiFunction from "../functions/apiFunction";
 import HairlineWidth from "./HairlineWidth";
-import storeFunction from "../functions/storeFunction";
 
-export default function TaskList({ allTask = [], setAllTask, setEditTask }) {
+export default function TaskList({
+   allTask = [],
+   setAllTask,
+   setEditTask,
+   setOpenMnueData,
+   openMnueData,
+   needToSaveChanges,
+}) {
 
    let [list, setList] = useState([])
    let [listOfDisplayOptions, setListOfDisplayOptions] = useState(null)
@@ -80,32 +85,34 @@ export default function TaskList({ allTask = [], setAllTask, setEditTask }) {
    }
 
    // To delete task
-   async function handleDelete(id) {
-      try {
-         let newTaskList = await storeFunction.deleteTask(id)
-         console.log("newTaskList = ", newTaskList);
-         setAllTask(newTaskList)
+   // async function handleDelete(id) {
+   //    try {
+   //       let newTaskList = await storeFunction.deleteTask(id)
+   //       console.log("newTaskList = ", newTaskList);
+   //       setAllTask(newTaskList)
 
-      } catch (error) {
-         console.log("Error handleDelete = ", error);
-      }
-   }
+   //    } catch (error) {
+   //       console.log("Error handleDelete = ", error);
+   //    }
+   // }
 
    // To change the task to execution and vice versa
-   async function handleCheckbox(id, value) {
-      try {
-         let newTaskList = await storeFunction.editTask(id, value)
-         setAllTask(newTaskList)
-      } catch (error) {
+   async function handleCheckbox(task) {
+      task.is_done = !task.is_done
+      setAllTask((taskList)=>[...taskList])
+      needToSaveChanges()
+   }
 
-      }
+   async function handleLongPress(task) {
+      setOpenMnueData(task)
+      console.log("task ===== ", task);
    }
 
 
    return (
-      <View>
+      <Pressable style={styles.TaskList}>
 
-         <View style={styles.buttonContainer}>
+         <View style={styles.buttonContainer} >
             {displayOptions.map((option, buttobIndex) =>
                <AppButton key={buttobIndex + "AppButton"} type={optionSelected == option ? 1 : 2} onPress={() => handleChangeOption(option)} title={option} />
             )}
@@ -118,18 +125,22 @@ export default function TaskList({ allTask = [], setAllTask, setEditTask }) {
                      key={indexTask}
                      taskData={task}
                      handleCheckbox={handleCheckbox}
-                     handleDelete={handleDelete}
+                     // handleDelete={handleDelete}
+                     handleLongPress={handleLongPress}
                   />
                   {indexTask < all.length - 1 && <HairlineWidth />}
                </>
             )}
          </View>
 
-      </View>
+      </Pressable>
    );
 }
 
 let styles = StyleSheet.create({
+   TaskList: {
+      // marginTop: 10,
+   },
    buttonContainer: {
       flexWrap: "wrap",
       flexDirection: "row",
@@ -139,5 +150,6 @@ let styles = StyleSheet.create({
    },
    taskContainer: {
       marginTop: 10,
-   }
+   },
+
 });

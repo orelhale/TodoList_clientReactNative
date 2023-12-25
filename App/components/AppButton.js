@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Button } from '@rneui/themed';
 import globalSize from "../globalStyle/globalSize";
 
-export default function AppButton({ title = "", onPress, type = "solid", buttonStyle = {}, titleStyle = {} }) {
+export default function AppButton({ title = "", onPress, type = "solid", buttonStyle = {}, titleStyle = {}, style = {} }) {
 	// let styleButton = [styles.roundButton]
 	let SquareType = [1, 2]
 	let roundType = [3, 4]
@@ -10,7 +10,7 @@ export default function AppButton({ title = "", onPress, type = "solid", buttonS
 
 	let buttonDesign = [2, 4].includes(type) ? "outline" : "solid";
 
-	let allButtonStyle = [buttonShape, buttonStyle, (buttonDesign == "solid" && styles.backgroundBlue)]
+	let allButtonStyle = [buttonShape, buttonStyle, (buttonDesign == "solid" && styles.backgroundBlue),style]
 	let allTitleStyle = [styles.titleStyle]
 	return (
 		<Button

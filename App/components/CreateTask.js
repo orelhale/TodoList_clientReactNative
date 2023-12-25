@@ -2,22 +2,35 @@ import { useEffect, useState } from "react";
 import { StyleSheet, TextInput, View, } from "react-native";
 import Button from "./AppButton";
 import globalSize from "../globalStyle/globalSize";
-import storeFunction from "../functions/storeFunction";
 
 
-export default function CreateTask({ editTask, setEditTask, setAllTask }) {
+export default function CreateTask({
+	editTask,
+	setEditTask,
+	setAllTask,
+	needToSaveChanges,
+	selectedCategory,
+	allData,
+	setAllData,
+}) {
 
 	const [description, setDescription] = useState("");
 	const [borderStyle, setBorderStyle] = useState({});
 	const [priority, setPriority] = useState(1)
 
-
 	useEffect(() => {
 		if (editTask) {
-			setDescription(editTask.description)
+			setDescription(selectedCategory ? editTask.description : editTask)
 			setPriority(editTask.priority)
 		}
 	}, [editTask])
+
+
+	useEffect(() => {
+		setEditTask(null)
+		setPriority(1)
+		setDescription("")
+	}, [selectedCategory])
 
 
 	function handleOnChangeText(text) {
@@ -28,37 +41,64 @@ export default function CreateTask({ editTask, setEditTask, setAllTask }) {
 
 	}
 
-
-	async function handleOnPress() {
+	function categoryHandle() {
 		try {
-
-			console.log("description = ", description);
-			if (description == "") {
-				setBorderStyle({ borderColor: "red" })
-				return;
+			let copyAllData = { ...allData }
+			if (editTask) { // עריכת קטגוריה
+				copyAllData[description] = [...copyAllData[editTask]]
+				delete copyAllData[editTask]
+				setAllData(copyAllData)
 			}
-
-			let dataToServer = editTask || {}
-
-			dataToServer.description = description
-			dataToServer.priority = priority
-			dataToServer.is_done = false;
-			dataToServer.id = new Date().getTime();
-
-			let newTaskList = []
-			if (editTask) {
-			} else {
-				newTaskList = await storeFunction.addTask(dataToServer)
+			else { // יצירת קטגוריה
+				copyAllData[description] = []
+				setAllData(copyAllData)
 			}
-			console.log("newTaskList= ", newTaskList);
-			setAllTask(newTaskList)
-			setEditTask(null)
-			setPriority(1)
-			setDescription("")
-
+			needToSaveChanges(copyAllData)
 		} catch (error) {
-			console.log("Error: handleOnPress = ", error);
+			console.log("Error: categoryHandle = ", error);
 		}
+	}
+
+	function taskHandle() {
+		try {
+			let task = editTask || {}
+			task.description = description
+			task.priority = priority
+			task.is_done = false;
+			task.id = Math.round(new Date().getTime() / 1000);
+
+			if (editTask) { // עריכת משימה
+				setAllTask((tasks) => [...tasks])
+			} else { // יצירת משימה
+				let copyAllData = { ...allData }
+				// console.log("copyAllData[selectedCategory].length 1 ==== ", copyAllData[selectedCategory].length);
+				copyAllData[selectedCategory].push(task)
+				// console.log("copyAllData[selectedCategory].length 2 ==== ", copyAllData[selectedCategory].length);
+				setAllData(copyAllData)
+				setAllTask([...copyAllData[selectedCategory]])
+			}
+			needToSaveChanges()
+		} catch (error) {
+			console.log("Error: taskHandle = ", error);
+		}
+	}
+
+	async function ceateOrEdit() {
+
+
+		// אם הקלט ריק - אז יש התראה
+		if (description == "")
+			return setBorderStyle({ borderColor: "red" })
+
+		if (selectedCategory) {
+			taskHandle()
+		} else {
+			categoryHandle()
+		}
+
+		setEditTask(null)
+		setPriority(1)
+		setDescription("")
 	}
 
 
@@ -70,9 +110,9 @@ export default function CreateTask({ editTask, setEditTask, setAllTask }) {
 					multiline
 					onChangeText={handleOnChangeText}
 					value={description}
-					placeholder={"New task"}
+					placeholder={selectedCategory ? "New task" : "New category"}
 				/>
-				<Button title="+" type={3} onPress={handleOnPress} />
+				<Button title="+" type={3} onPress={ceateOrEdit} />
 			</View>
 		</>
 	);
