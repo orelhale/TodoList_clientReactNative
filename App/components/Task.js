@@ -1,50 +1,39 @@
-import { StyleSheet, Text, View, TouchableHighlight, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import globalSize from "../globalStyle/globalSize";
 import { CheckBox } from "@rneui/themed";
 import globalColor from "../globalStyle/globalColor";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
+import globalElement from "../globalStyle/globalElement";
 
 MIcon.loadFont();
 
 export default function Task({
    taskData,
-   style,
-   indexTask,
-   handleDoubleClick,
    handleCheckbox,
-   // handleDelete,
-   handleLongPress
+   handleLongPress,
 }) {
    let { description, priority, is_done, id } = taskData
 
    return (
       <Pressable
-         onPress={() => console.log("Small press")}
-         // onLongPress={()=>console.log("Long press")}
          onLongPress={() => handleLongPress(taskData)}
-         style={({ pressed }) => [{ backgroundColor: pressed ? globalColor.gray : 'white' }, styles.taskContainer]}
+         style={({ pressed }) => [globalElement.allListItemWrap, globalElement.allListItemText, styles.taskContainer, { backgroundColor: pressed ? globalColor.gray : 'white' }]}
       >
 
-         {handleCheckbox &&
-            <View>
-               <CheckBox
-                  containerStyle={styles.checkBox}
-                  checked={is_done}
-                  onPress={() => {
-                     handleCheckbox(taskData)
-                  }}
-                  size={globalSize.element}
-               />
+         {handleCheckbox && <View>
+            <CheckBox
+               containerStyle={styles.checkBox}
+               checked={is_done}
+               onPress={() => {
+                  handleCheckbox(taskData)
+               }}
+               size={globalSize.element}
+            />
+         </View>}
 
-            </View>
-         }
-         <View style={styles.descriptionContaier}>
-            <Text style={[globalSize.text2, styles.description, (is_done && styles.textAndStrikeThrough)]}>{description}</Text>
+         <View style={[styles.descriptionContaier]}>
+            <Text style={[globalElement.allListItemText, styles.description, (is_done && styles.textAndStrikeThrough)]}>{description}</Text>
          </View>
-
-         {/* {handleDelete && <View style={styles.icon}>
-            <MIcon name="delete" color={globalColor.error} size={globalSize.element} onPress={() => { handleDelete(id) }} />
-         </View>} */}
 
       </Pressable>
    );
@@ -58,7 +47,7 @@ let styles = StyleSheet.create({
       paddingBottom: 8,
       marginTop: 2,
       marginBottom: 2,
-      // flexWrap: "wrap",
+      // flexWrap:"wrap",
       // flexDirection: 'row',
    },
    textAndStrikeThrough: {
@@ -68,13 +57,14 @@ let styles = StyleSheet.create({
       padding: 0,
       margin: 0,
       marginLeft: 0,
-      marginRight: 10,
+      paddingRight: 5,
    },
    descriptionContaier: {
       // flexWrap: "wrap",
       // flexDirection: "row",
 
       flexGrow: 1,
+      flex: 1,
       // flexWrap: "wrap"
    },
    description: {

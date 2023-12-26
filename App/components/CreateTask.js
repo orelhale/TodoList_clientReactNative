@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { StyleSheet, TextInput, View, } from "react-native";
 import Button from "./AppButton";
 import globalSize from "../globalStyle/globalSize";
+import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
+import globalColor from "../globalStyle/globalColor";
 
 
 export default function CreateTask({
@@ -30,6 +32,7 @@ export default function CreateTask({
 		setEditTask(null)
 		setPriority(1)
 		setDescription("")
+		setBorderStyle({})
 	}, [selectedCategory])
 
 
@@ -112,7 +115,15 @@ export default function CreateTask({
 					value={description}
 					placeholder={selectedCategory ? "New task" : "New category"}
 				/>
-				<Button title="+" type={3} onPress={ceateOrEdit} />
+				{editTask
+					? <MIcon
+						name="pencil-circle"
+						size={globalSize.buttonIcon}
+						color={globalColor.primary}
+						onPress={ceateOrEdit}
+					/>
+					: <Button title="+" type={3} onPress={ceateOrEdit} />
+				}
 			</View>
 		</>
 	);
@@ -127,7 +138,7 @@ let styles = StyleSheet.create({
 
 		borderWidth: 1,
 		borderRadius: 3,
-		width: "90%",
+		flex: 1,
 		marginRight: 5,
 	},
 	addTaskContainer: {
