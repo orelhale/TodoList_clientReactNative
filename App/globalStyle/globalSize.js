@@ -1,10 +1,8 @@
 import { StyleSheet } from "react-native";
 
-let globalSize = StyleSheet.create({
-   text1: { fontSize: 19 },
-   text2: { fontSize: 21 },
+export default globalSize = StyleSheet.create({
+   text1: { fontSize: 18 },
    element: 25,
    buttonIcon: 40,
 })
 
-export default globalSize

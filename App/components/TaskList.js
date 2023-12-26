@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Pressable } from "react-native";
 import AppButton from "./AppButton";
 import Task from "./Task";
-import HairlineWidth from "./HairlineWidth";
+import globalElement from "../globalStyle/globalElement";
 
 export default function TaskList({
    allTask = [],
@@ -74,7 +74,6 @@ export default function TaskList({
       setOptionSelected(e)
    }
 
-
    // slice the list by amount
    function sliceTheList() {
       let arr = listOfDisplayOptions[optionSelected] || []
@@ -84,22 +83,10 @@ export default function TaskList({
       return arr.slice(start, end)
    }
 
-   // To delete task
-   // async function handleDelete(id) {
-   //    try {
-   //       let newTaskList = await storeFunction.deleteTask(id)
-   //       console.log("newTaskList = ", newTaskList);
-   //       setAllTask(newTaskList)
-
-   //    } catch (error) {
-   //       console.log("Error handleDelete = ", error);
-   //    }
-   // }
-
    // To change the task to execution and vice versa
    async function handleCheckbox(task) {
       task.is_done = !task.is_done
-      setAllTask((taskList)=>[...taskList])
+      setAllTask((taskList) => [...taskList])
       needToSaveChanges()
    }
 
@@ -110,8 +97,7 @@ export default function TaskList({
 
 
    return (
-      <Pressable style={styles.TaskList}>
-
+      <Pressable>
          <View style={styles.buttonContainer} >
             {displayOptions.map((option, buttobIndex) =>
                <AppButton key={buttobIndex + "AppButton"} type={optionSelected == option ? 1 : 2} onPress={() => handleChangeOption(option)} title={option} />
@@ -119,28 +105,24 @@ export default function TaskList({
          </View>
 
          <View style={styles.taskContainer}>
-            {list.map((task, indexTask, all) =>
+            {list.map((task, index) =>
                <>
                   <Task
-                     key={indexTask}
+                     key={index}
                      taskData={task}
                      handleCheckbox={handleCheckbox}
                      // handleDelete={handleDelete}
                      handleLongPress={handleLongPress}
                   />
-                  {indexTask < all.length - 1 && <HairlineWidth />}
+                  {index < list.length - 1 && <View style={globalElement.bottomBorder} />}
                </>
             )}
          </View>
-
       </Pressable>
    );
 }
 
 let styles = StyleSheet.create({
-   TaskList: {
-      // marginTop: 10,
-   },
    buttonContainer: {
       flexWrap: "wrap",
       flexDirection: "row",

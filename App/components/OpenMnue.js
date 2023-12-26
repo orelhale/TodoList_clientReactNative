@@ -1,5 +1,4 @@
 import { StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import AppButton from "./AppButton";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import globalColor from "../globalStyle/globalColor";
 import globalSize from "../globalStyle/globalSize";
@@ -17,6 +16,7 @@ export function OpenMnue({
     setAllData,
 }) {
 
+    
     function clossMnue() {
         setOpenMnueData(null)
     }
@@ -57,28 +57,26 @@ export function OpenMnue({
         <>
             <TouchableWithoutFeedback onPress={clossMnue}>
                 <View style={styles.muneTaskBackground}>
-                    <TouchableWithoutFeedback>
-                        <View style={styles.muneTaskContainer} >
+                    <View style={styles.muneTaskContainer} >
 
-                            <TouchableOpacity onPress={handleDelete}>
-                                <MIcon
-                                    // onPress={() => { handleDelete() }}
-                                    name="delete-circle-outline"
-                                    size={globalSize.buttonIcon}
-                                    color={globalColor.error}
-                                />
-                            </TouchableOpacity>
+                        <TouchableOpacity onPress={handleDelete}>
+                            <MIcon
+                                // onPress={() => { handleDelete() }}
+                                name="delete-circle-outline"
+                                size={globalSize.buttonIcon}
+                                color={globalColor.error}
+                            />
+                        </TouchableOpacity>
 
-                            <TouchableOpacity onPress={handleEdit}>
-                                <MIcon
-                                    name="pencil-circle-outline"
-                                    color={globalColor.edit}
-                                    size={globalSize.buttonIcon}
-                                />
-                            </TouchableOpacity>
+                        <TouchableOpacity onPress={handleEdit}>
+                            <MIcon
+                                name="pencil-circle-outline"
+                                color={globalColor.edit}
+                                size={globalSize.buttonIcon}
+                            />
+                        </TouchableOpacity>
 
-                        </View>
-                    </TouchableWithoutFeedback>
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         </>
@@ -88,25 +86,22 @@ export function OpenMnue({
 
 let styles = StyleSheet.create({
     muneTaskContainer: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: 'white',
         // backgroundColor: 'blue',
         flexDirection: 'row',
         borderBottomWidth: 0.5,
         borderBottomColor: "gray",
-        paddingBottom: 6,
+        paddingBottom: 2,
+        gap: 10,
     },
     muneTaskBackground: {
         // backgroundColor: 'red',
-        // backgroundColor: '#d2d2d270',
-        position: "absolute",
+        position: 'absolute',
         left: 0,
         right: 0,
         top: 0,
         bottom: 0,
         zIndex: 100,
-        flex: 1,
-        flexWrap: "wrap",
-        flexDirection: 'row',
     },
 }) 

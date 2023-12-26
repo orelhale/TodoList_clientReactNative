@@ -15,7 +15,9 @@ export default function App() {
 
 let styles = StyleSheet.create({
 	defaultStyle: {
-		padding: "2%",
-		overflow: "scroll"
+		margin: "2%",
+		overflow: "scroll",
+		flex:1,
+		
 	},
 });

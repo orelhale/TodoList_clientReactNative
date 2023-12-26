@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import CreateTask from "../components/CreateTask";
 import { useEffect, useState } from "react";
@@ -106,7 +106,7 @@ export default function HomeScreen() {
 	}
 
 	return (
-		<>
+		<View>
 
 			{/*  יצירת משימה */}
 			<CreateTask
@@ -120,9 +120,9 @@ export default function HomeScreen() {
 			/>
 			{/* לחצן חזר */}
 			{(allTask && selectedCategory) &&
-				<TouchableOpacity style={styles.retrunButton} >
-					<Text style={styles.retrunButtonText} onPress={() => setSelectedCategory()}>{'<-'}</Text>
-				</TouchableOpacity>
+				<Pressable onPress={() => setSelectedCategory()} style={[styles.retrunButton]}>
+					<Text style={styles.retrunButtonText}>{'<-'}</Text>
+				</Pressable>
 			}
 			{/*  תפריט נפתח (לאחר לחיצה ארוכה על משימה)  */}
 			{openMnueData && <OpenMnue
@@ -153,7 +153,7 @@ export default function HomeScreen() {
 				openMnueData={openMnueData}
 				needToSaveChanges={needToSaveChanges}
 			/>}
-		</>
+		</View>
 	);
 }
 
@@ -171,11 +171,9 @@ let styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 10,
-
-
+		marginRight: 'auto',
 	},
-
 	retrunButtonText: {
-		fontSize: 20
+		fontSize: 20,
 	}
 });

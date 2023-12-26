@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import globalSize from "../globalStyle/globalSize";
-import globalColor from "../globalStyle/globalColor";
+import globalElement from "../globalStyle/globalElement";
 
 
 export default function CategoriesList({ categories, setSelectedCategory, setOpenMnueData }) {
@@ -16,34 +15,27 @@ export default function CategoriesList({ categories, setSelectedCategory, setOpe
    }, [categories])
 
    return (
-      <View>
+      <>
          {list.map((cat, index) =>
-            <View style={styles.TaskList}>
-               <Text
-                  style={[globalSize.text2, (index < list.length - 1) && styles.buttonBorder, styles.taskContainer]}
-                  onPress={() => setSelectedCategory(cat)}
-                  onLongPress={() => setOpenMnueData(cat)}
-               >
-                  {cat || ""}
-               </Text>
-            </View>
+            <>
+               <View style={globalElement.allListItemWrap}>
+                  <Text
+                     style={[globalElement.allListItemText, styles.taskContainer]}
+                     onPress={() => setSelectedCategory(cat)}
+                     onLongPress={() => setOpenMnueData(cat)}
+                  >
+                     {cat || ""}
+                  </Text>
+               </View>
+               {index < list.length - 1 && <View style={globalElement.bottomBorder} />}
+            </>
          )}
-      </View>
+      </>
    )
 }
 
 
 let styles = StyleSheet.create({
-   TaskList: {
-      marginLeft: 10,
-   },
-   buttonBorder: {
-      marginTop: 2,
-      marginBottom: 2,
-      marginRight: 10,
-      borderBottomColor: 'black',
-      borderBottomWidth: StyleSheet.hairlineWidth,
-   },
    taskContainer: {
       flexDirection: "row",
       alignItems: "center",

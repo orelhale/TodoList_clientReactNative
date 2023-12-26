@@ -4,8 +4,8 @@ onPress not work on View elemnmatTabLabel
 TouchableOpacity  - כמו דיב רק עם פלש כאשר לוחצים עליו
 TouchableWithoutFeedback - כמו דיב בלי עם פלש כאשר לוחצים עליו
 
-AppButton - כפתור
+TouchableHighlight - לא יודע
 
-
+Pressable - נראלי View אי אפשר ללחוץ עליו אזז זה תחליף 
 
 // npm i concurrently --save-dev // להריץ שני פקודות במקביל 
