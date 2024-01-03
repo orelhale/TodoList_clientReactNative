@@ -4,5 +4,6 @@ export default globalSize = StyleSheet.create({
    text1: { fontSize: 18 },
    element: 25,
    buttonIcon: 40,
+   smallButtonIcon: 20,
 })
 

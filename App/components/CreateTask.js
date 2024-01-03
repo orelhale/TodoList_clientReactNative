@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, TextInput, View, } from "react-native";
+import { StyleSheet, TextInput, View, Text } from "react-native";
 import Button from "./AppButton";
 import globalSize from "../globalStyle/globalSize";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import globalColor from "../globalStyle/globalColor";
+import Popup from "./Popup";
 
 
 export default function CreateTask({
@@ -14,11 +15,14 @@ export default function CreateTask({
 	selectedCategory,
 	allData,
 	setAllData,
+	app_json,
 }) {
 
 	const [description, setDescription] = useState("");
 	const [borderStyle, setBorderStyle] = useState({});
 	const [priority, setPriority] = useState(1)
+	const [isPopupVisible, setIsPopupVisible] = useState(false);
+	const [countClicks, setCountClicks] = useState(0);
 
 	useEffect(() => {
 		if (editTask) {
@@ -26,6 +30,12 @@ export default function CreateTask({
 			setPriority(editTask.priority)
 		}
 	}, [editTask])
+	useEffect(() => {
+		if (countClicks >= 5) {
+			setCountClicks(0)
+			setIsPopupVisible(true)
+		}
+	}, [countClicks])
 
 
 	useEffect(() => {
@@ -74,9 +84,7 @@ export default function CreateTask({
 				setAllTask((tasks) => [...tasks])
 			} else { // יצירת משימה
 				let copyAllData = { ...allData }
-				// console.log("copyAllData[selectedCategory].length 1 ==== ", copyAllData[selectedCategory].length);
 				copyAllData[selectedCategory].push(task)
-				// console.log("copyAllData[selectedCategory].length 2 ==== ", copyAllData[selectedCategory].length);
 				setAllData(copyAllData)
 				setAllTask([...copyAllData[selectedCategory]])
 			}
@@ -88,10 +96,12 @@ export default function CreateTask({
 
 	async function ceateOrEdit() {
 
-
 		// אם הקלט ריק - אז יש התראה
-		if (description == "")
+		if (description == "") {
+			setCountClicks(countClicks + 1)
 			return setBorderStyle({ borderColor: "red" })
+		}
+		countClicks != 0 && setCountClicks(0)
 
 		if (selectedCategory) {
 			taskHandle()
@@ -124,6 +134,10 @@ export default function CreateTask({
 					/>
 					: <Button title="+" type={3} onPress={ceateOrEdit} />
 				}
+				<Popup isPopupVisible={isPopupVisible} setIsPopupVisible={setIsPopupVisible} >
+					<Text style={{ fontWeight: "bold" }}>Develop by: {app_json.expo.owner}</Text>
+					<Text style={{ fontWeight: "bold" }}>Version: {app_json.expo.version}</Text>
+				</Popup>
 			</View>
 		</>
 	);
@@ -138,6 +152,7 @@ let styles = StyleSheet.create({
 
 		borderWidth: 1,
 		borderRadius: 3,
+		backgroundColor: "#FFF",
 		flex: 1,
 		marginRight: 5,
 	},

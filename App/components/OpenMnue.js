@@ -63,6 +63,8 @@ export function OpenMnue({
                             <MIcon
                                 // onPress={() => { handleDelete() }}
                                 name="delete-circle-outline"
+                                // name="arrow-left-thick"
+                                // name="arrow-left"
                                 size={globalSize.buttonIcon}
                                 color={globalColor.error}
                             />
