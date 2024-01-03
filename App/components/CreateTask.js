@@ -135,7 +135,8 @@ export default function CreateTask({
 					: <Button title="+" type={3} onPress={ceateOrEdit} />
 				}
 				<Popup isPopupVisible={isPopupVisible} setIsPopupVisible={setIsPopupVisible} >
-					<Text style={{ fontWeight: "bold" }}>Develop by: {app_json.expo.owner}</Text>
+					{/* <Text style={{ fontWeight: "bold" }}>Develop by: {app_json.expo.owner}</Text> */}
+					<Text style={{ fontWeight: "bold" }}>Develop by: Orel Hale</Text>
 					<Text style={{ fontWeight: "bold" }}>Version: {app_json.expo.version}</Text>
 				</Popup>
 			</View>
