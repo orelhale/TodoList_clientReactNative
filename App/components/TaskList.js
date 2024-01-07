@@ -97,7 +97,8 @@ export default function TaskList({
 
 
    return (
-      <Pressable>
+      <Pressable style={styles.contianer}>
+
          <View style={styles.buttonContainer} >
             {displayOptions.map((option, buttobIndex) =>
                <AppButton key={buttobIndex + "AppButton"} type={optionSelected == option ? 1 : 2} onPress={() => handleChangeOption(option)} title={option} />
@@ -123,6 +124,9 @@ export default function TaskList({
 }
 
 let styles = StyleSheet.create({
+   contianer: {
+      
+   },
    buttonContainer: {
       flexWrap: "wrap",
       flexDirection: "row",

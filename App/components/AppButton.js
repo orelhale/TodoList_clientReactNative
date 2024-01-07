@@ -10,7 +10,7 @@ export default function AppButton({ title = "", onPress, type = "solid", buttonS
 
 	let buttonDesign = [2, 4].includes(type) ? "outline" : "solid";
 
-	let allButtonStyle = [buttonShape, buttonStyle, (buttonDesign == "solid" && styles.backgroundBlue),style]
+	let allButtonStyle = [buttonShape, buttonStyle, (buttonDesign == "solid" ? styles.backgroundBlue : styles.backgroundWhite), style]
 	let allTitleStyle = [styles.titleStyle]
 	return (
 		<Button
@@ -38,6 +38,9 @@ let styles = StyleSheet.create({
 	backgroundBlue: {
 		backgroundColor: "#1890FF",
 		borderColor: "#1890FF",
+	},
+	backgroundWhite: {
+		backgroundColor: "#FFF",
 	},
 
 	// squareButton :{

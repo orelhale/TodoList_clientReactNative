@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import globalElement from "../globalStyle/globalElement";
 
 
@@ -18,15 +18,13 @@ export default function CategoriesList({ categories, setSelectedCategory, setOpe
       <>
          {list.map((cat, index) =>
             <>
-               <View style={globalElement.allListItemWrap}>
-                  <Text
-                     style={[globalElement.allListItemText, styles.taskContainer]}
-                     onPress={() => setSelectedCategory(cat)}
-                     onLongPress={() => setOpenMnueData(cat)}
-                  >
-                     {cat || ""}
-                  </Text>
-               </View>
+               <Pressable
+                  style={({ pressed }) => [globalElement.allListItemWrap, { backgroundColor: pressed ? globalColor.gray : 'white' }]}
+                  onLongPress={() => setOpenMnueData(cat)}
+                  onPress={() => setSelectedCategory(cat)}
+               >
+                  <Text style={[globalElement.allListItemText, styles.taskContainer]}>{cat || ""}</Text>
+               </Pressable>
                {index < list.length - 1 && <View style={globalElement.bottomBorder} />}
             </>
          )}
@@ -37,12 +35,12 @@ export default function CategoriesList({ categories, setSelectedCategory, setOpe
 
 let styles = StyleSheet.create({
    taskContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      paddingTop: 8,
-      paddingBottom: 8,
-      marginTop: 2,
-      marginBottom: 2,
+      // display:"flex",
+      // flexDirection: "row",
+      // alignItems: "center",
+      // paddingTop: 8,
+      // paddingBottom: 8,
+      // marginTop: 2,
+      // marginBottom: 2,
    },
-
 })

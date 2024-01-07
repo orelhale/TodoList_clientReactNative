@@ -41,12 +41,13 @@ export default function Task({
 
 let styles = StyleSheet.create({
    taskContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      paddingTop: 8,
-      paddingBottom: 8,
-      marginTop: 2,
-      marginBottom: 2,
+      // flexDirection: "row",
+      // alignItems: "center",
+      // paddingTop: 8,
+      // paddingBottom: 8,
+      // marginTop: 2,
+      // marginBottom: 2,
+
       // flexWrap:"wrap",
       // flexDirection: 'row',
    },
@@ -57,7 +58,11 @@ let styles = StyleSheet.create({
       padding: 0,
       margin: 0,
       marginLeft: 0,
-      paddingRight: 5,
+      paddingRight: 1,
+      paddingTop: 4,
+      paddingLeft: 5,
+      paddingBottom: 2,
+      borderRadius: 20,
    },
    descriptionContaier: {
       // flexWrap: "wrap",
@@ -74,3 +79,5 @@ let styles = StyleSheet.create({
    },
 
 });
+
+

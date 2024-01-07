@@ -5,9 +5,9 @@ export default function App() {
 
 	return (
 		<View style={styles.defaultStyle}>
-			<ScrollView>
+			<View style={styles.marginScreen}>
 				<HomeScreen />
-			</ScrollView>
+			</View>
 		</View>
 	);
 }
@@ -15,9 +15,11 @@ export default function App() {
 
 let styles = StyleSheet.create({
 	defaultStyle: {
-		margin: "2%",
-		overflow: "scroll",
-		flex:1,
-		
+		// overflow: "scroll",
+		flex: 1,
+		backgroundColor: "#f7f7f7",
 	},
+	marginScreen: {
+		margin: "2%",
+	}
 });

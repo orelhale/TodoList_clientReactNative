@@ -2,7 +2,7 @@
   "expo": {
     "name": "Todo list",
     "slug": "todo-list",
-    "version": "2.2.1",
+    "version": "2.3.0",
     "orientation": "portrait",
     "icon": "./App/assets/icon.png",
     "userInterfaceStyle": "light",
