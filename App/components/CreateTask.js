@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, TextInput, View, Text } from "react-native";
+import { StyleSheet, TextInput, View, Text, Pressable, I18nManager } from "react-native";
 import Button from "./AppButton";
 import globalSize from "../globalStyle/globalSize";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons"
@@ -16,6 +16,7 @@ export default function CreateTask({
 	allData,
 	setAllData,
 	app_json,
+	setSelectedCategory,
 }) {
 
 	const [description, setDescription] = useState("");
@@ -23,6 +24,8 @@ export default function CreateTask({
 	const [priority, setPriority] = useState(1)
 	const [isPopupVisible, setIsPopupVisible] = useState(false);
 	const [countClicks, setCountClicks] = useState(0);
+
+	let isRTL = I18nManager.isRTL
 
 	useEffect(() => {
 		if (editTask) {
@@ -117,7 +120,17 @@ export default function CreateTask({
 
 	return (
 		<>
-			<View style={styles.addTaskContainer}>
+			<View style={[styles.addTaskContainer, (isRTL && styles.ltr)]}>
+				{selectedCategory && <Pressable onPress={() => setSelectedCategory()} style={({ pressed }) => [styles.retrunButton, { backgroundColor: pressed ? globalColor.gray : 'white' }]}>
+					<MIcon
+						// name="arrow-left-thick"
+						// name="arrow-left"
+						// name="keyboard-return"
+						name="keyboard-backspace"
+						size={globalSize.smallButtonIcon}
+						color={globalColor.primary}
+					/>
+				</Pressable>}
 				<TextInput
 					style={[styles.input, globalSize.text1, borderStyle]}
 					multiline
@@ -155,11 +168,35 @@ let styles = StyleSheet.create({
 		borderRadius: 3,
 		backgroundColor: "#FFF",
 		flex: 1,
-		marginRight: 5,
+		// marginRight: 5,
 	},
 	addTaskContainer: {
 		justifyContent: "center",
 		flexDirection: 'row',
+		gap: 5,
+	},
+	retrunButton: {
+		// borderRadius:1,
+		flexDirection: 'row',
+		borderRadius: 20,
+		borderWidth: 0.5,
+		// padding: 5,
+		width: 35,
+		height: 35,
+		textAlign: "center",
+		alignItems: "center",
+		justifyContent: "center",
+		// marginTop: 10,
+		marginRight: 'auto',
+		backgroundColor: "#FFF",
+		borderColor: "#1890FF",
+	},
+	retrunButtonText: {
+		fontSize: 20,
+		color: "#1890FF",
+	},
+	ltr: {
+		flexDirection: "row-reverse",
 	},
 
 });

@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import globalColor from "./globalColor";
 
 export default globalElement = StyleSheet.create({
 
@@ -25,6 +26,12 @@ export default globalElement = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         backgroundColor: "#fff"
+    },
+    noItems: {
+        fontSize: 20,
+        color: globalColor.primary,
+        textAlign: "center",
+        marginTop: 20,
     },
 })
 

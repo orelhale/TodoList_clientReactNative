@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Pressable } from "react-native";
+import { StyleSheet, View, Pressable, Text, I18nManager } from "react-native";
 import AppButton from "./AppButton";
 import Task from "./Task";
 import globalElement from "../globalStyle/globalElement";
@@ -21,11 +21,12 @@ export default function TaskList({
 
    let displayOptions = ["All", "Todo", "Done"]
    const amountToShow = 40;
+   let isRTL = I18nManager.isRTL
 
    let pagesNum = listOfDisplayOptions ? Math.ceil((listOfDisplayOptions[optionSelected].length) / amountToShow) : 0;
 
    useEffect(() => {
-      if (allTask[0]) {
+      if (allTask && allTask instanceof Array) {
          let todoArr = [], doneArr = [];
 
          allTask.forEach((task) => {
@@ -76,6 +77,7 @@ export default function TaskList({
 
    // slice the list by amount
    function sliceTheList() {
+      return listOfDisplayOptions[optionSelected] || []
       let arr = listOfDisplayOptions[optionSelected] || []
       let start = ((currentPage - 1) * amountToShow);
       let end = (start + amountToShow);
@@ -99,11 +101,13 @@ export default function TaskList({
    return (
       <Pressable style={styles.contianer}>
 
-         <View style={styles.buttonContainer} >
+         <View style={[styles.buttonContainer, (isRTL && styles.ltr)]} >
             {displayOptions.map((option, buttobIndex) =>
                <AppButton key={buttobIndex + "AppButton"} type={optionSelected == option ? 1 : 2} onPress={() => handleChangeOption(option)} title={option} />
             )}
          </View>
+
+         {(!list || !list.length) && <Text style={globalElement.noItems}>No items</Text>}
 
          <View style={styles.taskContainer}>
             {list.map((task, index) =>
@@ -114,6 +118,7 @@ export default function TaskList({
                      handleCheckbox={handleCheckbox}
                      // handleDelete={handleDelete}
                      handleLongPress={handleLongPress}
+                     isLast={(index >= list.length - 1)}
                   />
                   {index < list.length - 1 && <View style={globalElement.bottomBorder} />}
                </>
@@ -125,14 +130,17 @@ export default function TaskList({
 
 let styles = StyleSheet.create({
    contianer: {
-      
+      marginTop: 15,
    },
    buttonContainer: {
       flexWrap: "wrap",
       flexDirection: "row",
-      marginTop: 10,
       marginBottom: 10,
       gap: 10,
+      marginLeft: 2,
+   },
+   ltr: {
+      flexDirection: "row-reverse",
    },
    taskContainer: {
       marginTop: 10,
