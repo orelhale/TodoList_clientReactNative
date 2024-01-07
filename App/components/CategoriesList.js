@@ -9,17 +9,23 @@ export default function CategoriesList({ categories, setSelectedCategory, setOpe
    let [list, setList] = useState([])
 
    useEffect(() => {
-      if (categories && categories.length) {
+      if (categories && categories instanceof Array) {
          setList(categories)
       }
    }, [categories])
 
    return (
-      <>
+      <View style={styles.container}>
+         {(!list || !list.length) && <Text style={globalElement.noItems}>No items</Text>}
+         
          {list.map((cat, index) =>
             <>
                <Pressable
-                  style={({ pressed }) => [globalElement.allListItemWrap, { backgroundColor: pressed ? globalColor.gray : 'white' }]}
+                  style={({ pressed }) => [
+                     globalElement.allListItemWrap,
+                     (index >= list.length - 1 && styles.lastItem),
+                     ({ backgroundColor: pressed ? globalColor.gray : 'white' })
+                  ]}
                   onLongPress={() => setOpenMnueData(cat)}
                   onPress={() => setSelectedCategory(cat)}
                >
@@ -28,7 +34,7 @@ export default function CategoriesList({ categories, setSelectedCategory, setOpe
                {index < list.length - 1 && <View style={globalElement.bottomBorder} />}
             </>
          )}
-      </>
+      </View>
    )
 }
 
@@ -42,5 +48,11 @@ let styles = StyleSheet.create({
       // paddingBottom: 8,
       // marginTop: 2,
       // marginBottom: 2,
+   },
+   lastItem: {
+      paddingBottom: 10,
+   },
+   container: {
+      marginTop:10
    },
 })

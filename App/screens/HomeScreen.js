@@ -23,6 +23,7 @@ export default function HomeScreen() {
 	let [flagSaveDate, setFlagSaveDate] = useState(false)
 	let [flagSaveDate222, setFlagSaveDate222] = useState(false)
 
+	let isRTL = I18nManager.isRTL
 	let timeToSave = 3000;
 
 	useEffect(() => {
@@ -66,7 +67,6 @@ export default function HomeScreen() {
 
 	useEffect(() => {
 		if (categories) {
-			console.log("categories ==== ", categories);
 			for (let c of categories) {
 				console.log(c + " = " + allData[c].length);
 			}
@@ -76,9 +76,6 @@ export default function HomeScreen() {
 	useEffect(() => {
 		if (selectedCategory) {
 			setAllTask([...allData[selectedCategory]])
-		} else {
-
-			console.log("allData==== ", allData);
 		}
 	}, [selectedCategory])
 
@@ -87,10 +84,6 @@ export default function HomeScreen() {
 			console.log("allTask==== ", allTask);
 		}
 	}, [allTask])
-
-
-	let [isRTL, setIsRTL] = useState(I18nManager.isRTL)
-
 
 	function needToSaveChanges(data) {
 		if (data) {
@@ -120,6 +113,7 @@ export default function HomeScreen() {
 			{/*  יצירת משימה */}
 			<CreateTask
 				editTask={editTask}
+				setSelectedCategory={setSelectedCategory}
 				setEditTask={setEditTask}
 				setAllTask={setAllTask}
 				needToSaveChanges={needToSaveChanges}
@@ -129,20 +123,19 @@ export default function HomeScreen() {
 				app_json={app_json}
 			/>
 			{/* לחצן חזר */}
-			{(allTask && selectedCategory) &&
-				<View style={isRTL && styles.ltr}>
-					<Pressable onPress={() => setSelectedCategory()} style={({ pressed }) => [styles.retrunButton, { backgroundColor: pressed ? globalColor.gray : 'white' }]}>
-						<MIcon
-							// name="arrow-left-thick"
-							// name="arrow-left"
-							// name="keyboard-return"
-							name="keyboard-backspace"
-							size={globalSize.smallButtonIcon}
-							color={globalColor.primary}
-						/>
-					</Pressable>
-				</View>
-			}
+			{/* {(allTask && selectedCategory) && <View style={[styles.wrapRetrunButton, isRTL && styles.ltr]}>
+				<Pressable onPress={() => setSelectedCategory()} style={({ pressed }) => [styles.retrunButton, { backgroundColor: pressed ? globalColor.gray : 'white' }]}>
+					<MIcon
+						// name="arrow-left-thick"
+						// name="arrow-left"
+						// name="keyboard-return"
+						name="keyboard-backspace"
+						size={globalSize.smallButtonIcon}
+						color={globalColor.primary}
+					/>
+				</Pressable>
+			</View>} */}
+
 			{/*  תפריט נפתח (לאחר לחיצה ארוכה על משימה)  */}
 			{openMnueData && <OpenMnue
 				openMnueData={openMnueData}
@@ -162,7 +155,7 @@ export default function HomeScreen() {
 					setSelectedCategory={setSelectedCategory}
 					setOpenMnueData={setOpenMnueData}
 				/>}
-	
+
 				{/*  רשימת משימות */}
 				{(allTask && selectedCategory) && <TaskList
 					allTask={allTask}
@@ -181,6 +174,9 @@ export default function HomeScreen() {
 let styles = StyleSheet.create({
 	container: {
 		overflow: "scroll",
+	},
+	wrapRetrunButton: {
+		paddingBottom: 5,
 	},
 	retrunButton: {
 		// borderRadius:1,

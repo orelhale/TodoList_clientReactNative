@@ -11,13 +11,20 @@ export default function Task({
    taskData,
    handleCheckbox,
    handleLongPress,
+   isLast,
 }) {
    let { description, priority, is_done, id } = taskData
 
    return (
       <Pressable
          onLongPress={() => handleLongPress(taskData)}
-         style={({ pressed }) => [globalElement.allListItemWrap, globalElement.allListItemText, styles.taskContainer, { backgroundColor: pressed ? globalColor.gray : 'white' }]}
+         style={({ pressed }) => [
+            globalElement.allListItemWrap,
+            globalElement.allListItemText,
+            styles.taskContainer,
+            (isLast && styles.lastItem),
+            ({ backgroundColor: pressed ? globalColor.gray : 'white' })
+         ]}
       >
 
          {handleCheckbox && <View>
@@ -76,6 +83,9 @@ let styles = StyleSheet.create({
       // flexGrow: 1,
       // maxWidth:"100%",
       // flexWrap: "wrap"
+   },
+   lastItem: {
+      paddingBottom: 10,
    },
 
 });
